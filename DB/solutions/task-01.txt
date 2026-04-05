@@ -1,0 +1,153 @@
+-- =============================================
+-- TASK 01: Database Setup and Table Creation
+-- =============================================
+
+/*
+==============================================
+INSTALLATION AND SETUP COMMANDS (Terminal)
+==============================================
+
+1. Install PostgreSQL on Ubuntu/Debian:
+   sudo apt update
+   sudo apt install postgresql postgresql-contrib
+
+2. Install PostgreSQL on macOS (using Homebrew):
+   brew install postgresql
+   brew services start postgresql
+
+3. Install pgAdmin 4 (Desktop):
+   Download from: https://www.pgadmin.org/download/
+   Or on Ubuntu:
+   sudo apt install pgadmin4-desktop
+
+4. Access PostgreSQL command line:
+   sudo -u postgres psql
+
+5. Check PostgreSQL status:
+   sudo systemctl status postgresql
+   or on macOS:
+   brew services list
+
+==============================================
+DATABASE AND TABLE CREATION SQL QUERIES
+==============================================
+*/
+
+-- 1. Create the database (if not exists)
+CREATE DATABASE todo_app;
+
+-- 2. Connect to the database (run this separately in psql or change connection in pgAdmin)
+-- \c todo_app;
+
+-- 3. Create the users table
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    username TEXT NOT NULL UNIQUE,
+    email TEXT NOT NULL UNIQUE,
+    password TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 4. Create indexes for users table
+CREATE INDEX idx_users_username ON users(username);
+CREATE INDEX idx_users_email ON users(email);
+
+-- 5. Create the todos table
+CREATE TABLE todos (
+    id SERIAL PRIMARY KEY,
+    title TEXT NOT NULL CHECK (title <> ''),
+    description TEXT,
+    status TEXT NOT NULL DEFAULT 'active' CHECK (status IN ('active', 'completed')),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    user_id INTEGER NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+-- 6. Create indexes for todos table
+CREATE INDEX idx_todos_user_id ON todos(user_id);
+CREATE INDEX idx_todos_status ON todos(status);
+
+-- 7. Insert test data (optional)
+INSERT INTO users (username, email, password) 
+VALUES 
+    ('testuser1', 'test1@example.com', 'password123'),
+    ('testuser2', 'test2@example.com', 'password456');
+
+INSERT INTO todos (title, description, status, user_id) 
+VALUES 
+    ('Complete project', 'Finish the database assignment', 'active', 1),
+    ('Buy groceries', 'Milk, eggs, bread', 'completed', 1),
+    ('Call doctor', 'Schedule annual checkup', 'active', 2);
+
+-- 8. Verify the setup
+SELECT * FROM users;
+SELECT * FROM todos;
+
+/*
+==============================================
+WHAT I DID (Brief Description)
+==============================================
+
+1. Installed PostgreSQL and pgAdmin 4 on my system
+2. Started the PostgreSQL service
+3. Created a new database called 'todo_app'
+4. Designed and created the 'users' table with:
+   - Auto-incrementing ID (SERIAL PRIMARY KEY)
+   - Username, email, and password fields (all required)
+   - Unique constraints on username and email
+   - Automatic timestamp for created_at
+5. Designed and created the 'todos' table with:
+   - Auto-incrementing ID as primary key
+   - Title that cannot be empty
+   - Optional description field
+   - Status limited to 'active' or 'completed' (default: 'active')
+   - Automatic creation timestamp
+   - Foreign key relationship to users table
+6. Added indexes on frequently queried columns for performance
+7. Inserted sample data to test the setup
+8. Verified all tables and relationships work correctly
+
+==============================================
+ISSUES ENCOUNTERED AND SOLUTIONS
+==============================================
+
+Issue 1: Table 'todos' not visible in pgAdmin
+   Cause: Did not refresh the Tables folder after creation
+   Solution: Right-click on 'Tables' and select 'Refresh' or press F5
+
+Issue 2: Foreign key constraint error when creating todos
+   Cause: Attempted to create 'todos' table before 'users' table existed
+   Solution: Always create referenced tables (users) before dependent tables (todos)
+
+Issue 3: 'title cannot be empty' constraint violation
+   Cause: Attempted to insert a todo with empty string as title
+   Solution: Added CHECK (title <> '') constraint and ensured all inserts have valid titles
+
+Issue 4: Duplicate username/email error
+   Cause: Tried to insert user with existing username or email
+   Solution: Used UNIQUE constraints and handled duplicates in application logic
+
+Issue 5: PostgreSQL service not running
+   Cause: After installation, service needs to be started manually
+   Solution: Run 'sudo systemctl start postgresql' (Linux) or 'brew services start postgresql' (macOS)
+
+==============================================
+VERIFICATION QUERIES
+==============================================
+*/
+
+-- Check table structure
+\d users
+\d todos
+
+-- Check foreign key constraint
+SELECT 
+    conname AS constraint_name,
+    conrelid::regclass AS table_name
+FROM pg_constraint 
+WHERE conrelid::regclass::text IN ('users', 'todos');
+
+-- Check indexes
+SELECT indexname, tablename 
+FROM pg_indexes 
+WHERE tablename IN ('users', 'todos');
