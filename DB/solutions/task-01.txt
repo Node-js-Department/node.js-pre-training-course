@@ -1,0 +1,35 @@
+-- Task 01: Setting Up and Creating the "users" and "todos" Tables with Raw SQL
+
+-- ============================================================
+-- What I did:
+-- 1. Installed MySQL Community Server (MSI installer) on Windows.
+-- 2. Used MySQL Workbench as the GUI tool.
+-- 3. Created a new database named "todo_app".
+-- 4. Created tables "users" and "todos" with raw SQL.
+--
+-- Issues encountered:
+-- - The Oracle download page required registration to download MySQL.
+--   Worked around it by using the "No thanks, just start my download" link.
+-- - When re-running the script, got error 1007 "database exists".
+--   Fixed by adding DROP DATABASE IF EXISTS before CREATE DATABASE.
+-- ============================================================
+
+DROP DATABASE IF EXISTS todo_app;
+CREATE DATABASE todo_app;
+USE todo_app;
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE
+);
+
+CREATE TABLE todos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title TEXT NOT NULL,
+    description TEXT,
+    status VARCHAR(50) DEFAULT 'active',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    user_id INT,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
