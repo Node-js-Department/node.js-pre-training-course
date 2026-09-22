@@ -28,4 +28,12 @@ describe('Task 07: Generic Repository', () => {
     repo.remove(2);
     expect(repo.findById(2)).toBeUndefined();
   });
+
+  it('update should throw for a non-existing id', () => {
+    expect(() => repo.update(99, { value: 'X' })).toThrow();
+  });
+
+  it('remove should throw for a non-existing id', () => {
+    expect(() => repo.remove(99)).toThrow();
+  });
 });

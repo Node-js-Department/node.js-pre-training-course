@@ -32,7 +32,7 @@ In this task, you will move from raw SQL to using an **ORM (Object-Relational Ma
 
 ## Document Your Work
 
-After completing all previous steps, document your work in `solutions/task-07.sql`:
+After completing all previous steps, document your work in `solutions/task-07.txt`:
 
 - Provide a link to the pull request where you implemented the solution, or list the relevant commit hashes if a pull request is not available.
 - Briefly describe what you did and any issues you encountered.

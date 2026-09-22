@@ -13,16 +13,17 @@ node.js-pre-training-practice/
 │   └── react-todo-app/      # Complete React application with TypeScript
 │       ├── src/solutions/   # React component implementations
 │       ├── tasks/           # React task descriptions
-│       └── tests/           # React component tests
+│       └── src/__tests__/   # React component tests
 ├── Node-Express-Nest/       # Backend development
-│   ├── tasks/               # Node.js Express.js and NestJS tasks
-│   │    └── node/           # Node.js specific tasks
-│   │    ├── express/        # Express.js tasks
-│   │    └── nest/           # NestJS tasks
-│   └── solutions/           # Backend implementations
-│        └── node/           # Node.js specific solutions
-│        ├── express/        # Express.js solutions
-│        └── nest/           # NestJS solutions
+│   └── v1/
+│       ├── tasks/           # Node.js, Express.js and NestJS tasks
+│       │    ├── node/       # Node.js specific tasks
+│       │    ├── express/    # Express.js tasks
+│       │    └── nest/       # NestJS tasks
+│       └── solutions/       # Backend implementations
+│            ├── node/       # Node.js specific solutions
+│            ├── express/    # Express.js solutions
+│            └── nest/       # NestJS solutions
 ├── DB/                     # Database queries
 │   ├── tasks/               # SQL and MongoDB tasks
 │   └── solutions/           # Database solutions
@@ -48,9 +49,10 @@ node.js-pre-training-practice/
 
 3. **Node-Express-Nest**: Backend development
 
+   - Node.js tasks for core runtime concepts (events, streams, HTTP)
    - Express.js tasks for API endpoints
    - NestJS tasks for advanced backend patterns
-   - Complete all 10 tasks in `Node-Express-Nest/tasks/`
+   - Complete all 15 tasks (5 node + 5 express + 5 nest) in `Node-Express-Nest/v1/tasks/`
 
 4. **DB**: Database operations
 

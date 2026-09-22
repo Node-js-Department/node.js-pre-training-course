@@ -26,7 +26,7 @@ In this task, you will use **raw SQL** to create a trigger that automatically lo
 
 ## Document Your Work
 
-After completing all previous steps, document your work in `solutions/task-09.sql`:
+After completing all previous steps, document your work in `solutions/task-09.txt`:
 
 - Provide a link to the pull request where you implemented the solution, or list the relevant commit hashes if a pull request is not available.
 - Briefly describe what you did and any issues you encountered.

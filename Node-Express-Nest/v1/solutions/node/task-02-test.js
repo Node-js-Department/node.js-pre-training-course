@@ -224,7 +224,19 @@ alice brown,alice.brown@company.org,9876543210,1988/07/04,houston`;
     };
 
     return new Promise((resolve, reject) => {
+      let received = false;
+
+      // Fail fast instead of hanging silently: if this test's promise never
+      // settles (e.g. _transform() never push()es while incomplete), an
+      // idle event loop can let the whole process exit early with no error,
+      // silently skipping every test after this one. Ten seconds is a
+      // generous ceiling for an in-memory, object-mode transform.
+      const timer = setTimeout(() => {
+        reject(new Error("Timed out waiting for a transformed record (did _transform() call push()?)"));
+      }, 10000);
+
       transformer.on("data", (transformed) => {
+        received = true;
         try {
           if (transformed.name !== "John Doe") {
             throw new Error(
@@ -250,13 +262,25 @@ alice brown,alice.brown@company.org,9876543210,1988/07/04,houston`;
             );
           }
 
+          clearTimeout(timer);
           resolve();
         } catch (error) {
+          clearTimeout(timer);
           reject(error);
         }
       });
 
-      transformer.on("error", reject);
+      transformer.on("end", () => {
+        if (!received) {
+          clearTimeout(timer);
+          reject(new Error("Stream ended without emitting any transformed record"));
+        }
+      });
+
+      transformer.on("error", (error) => {
+        clearTimeout(timer);
+        reject(error);
+      });
 
       transformer.write(testRecord);
       transformer.end();
@@ -460,6 +484,10 @@ alice brown,alice.brown@company.org,9876543210,1988/07/04,houston`;
 
     const passed = this.testResults.filter((r) => r.status === "PASS").length;
     const failed = this.testResults.filter((r) => r.status === "FAIL").length;
+
+    if (failed > 0) {
+      process.exitCode = 1;
+    }
 
     console.log(`✅ Passed: ${passed}`);
     console.log(`❌ Failed: ${failed}`);

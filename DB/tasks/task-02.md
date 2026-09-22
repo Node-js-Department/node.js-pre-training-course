@@ -28,7 +28,7 @@ In this task, you will use **raw SQL** (not an ORM or any abstraction) to practi
 
 ## Document Your Work
 
-After completing all previous steps, document your work in `solutions/task-02.sql`:
+After completing all previous steps, document your work in `solutions/task-02.txt`:
 
 - Write down all terminal commands you used to interact with the database.
 - Include all SQL queries you executed.

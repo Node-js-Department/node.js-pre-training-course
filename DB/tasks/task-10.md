@@ -30,7 +30,7 @@ In this task, you will use **Redis** (a NoSQL in-memory data store) to cache the
 
 ## Document Your Work
 
-After completing all previous steps, document your work in `solutions/task-10.sql`:
+After completing all previous steps, document your work in `solutions/task-10.txt`:
 
 - Provide a link to the pull request where you implemented the solution, or list the relevant commit hashes if a pull request is not available.
 - Briefly describe what you did and any issues you encountered.

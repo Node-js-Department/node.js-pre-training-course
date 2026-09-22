@@ -1,72 +1,86 @@
 const fs = require('fs');
 
-describe('Dockerfile for ToDo app', () => {
-  it('should contain FROM node', () => {
-    const dockerfile = fs.readFileSync('Docker-Git/solutions/task-01.dockerfile', 'utf8');
-    expect(dockerfile).toMatch(/FROM node/i);
-  });
-});
+function readSolution(taskNumber) {
+  return fs.readFileSync(`Docker-Git/solutions/task-${taskNumber}.txt`, 'utf8');
+}
 
-describe('docker-compose.yml for ToDo app', () => {
-  it('should contain service for mongo', () => {
-    const compose = fs.readFileSync('Docker-Git/solutions/task-02.yml', 'utf8');
-    expect(compose).toMatch(/mongo/i);
-  });
-});
-
-describe('docker-compose.yml with volume', () => {
-  it('should contain volumes', () => {
-    const compose = fs.readFileSync('Docker-Git/solutions/task-03.yml', 'utf8');
-    expect(compose).toMatch(/volumes?/i);
-  });
-});
-
-describe('Dockerfile with NODE_ENV', () => {
-  it('should contain ENV NODE_ENV', () => {
-    const dockerfile = fs.readFileSync('Docker-Git/solutions/task-04.dockerfile', 'utf8');
-    expect(dockerfile).toMatch(/ENV NODE_ENV/i);
-  });
-});
-
-describe('docker-compose.yml with networking', () => {
-  it('should contain depends_on or links', () => {
-    const compose = fs.readFileSync('Docker-Git/solutions/task-05.yml', 'utf8');
-    expect(compose).toMatch(/depends_on|links/i);
-  });
-});
-
-describe('Git: init', () => {
-  it('should mention git init', () => {
-    const txt = fs.readFileSync('Docker-Git/solutions/task-06.txt', 'utf8');
+describe('Task 01: Git Fundamentals', () => {
+  it('should document git init and the commit history', () => {
+    const txt = readSolution('01');
     expect(txt).toMatch(/git init/i);
+    expect(txt).toMatch(/git log/i);
   });
 });
 
-describe('Git: commit', () => {
-  it('should mention git commit', () => {
-    const txt = fs.readFileSync('Docker-Git/solutions/task-07.txt', 'utf8');
-    expect(txt).toMatch(/git commit/i);
-  });
-});
-
-describe('Git: branch', () => {
-  it('should mention git branch', () => {
-    const txt = fs.readFileSync('Docker-Git/solutions/task-08.txt', 'utf8');
-    expect(txt).toMatch(/git branch|git checkout -b/i);
-  });
-});
-
-describe('Git: merge', () => {
-  it('should mention git merge', () => {
-    const txt = fs.readFileSync('Docker-Git/solutions/task-09.txt', 'utf8');
+describe('Task 02: Git Branching', () => {
+  it('should document creating and merging a feature branch', () => {
+    const txt = readSolution('02');
+    expect(txt).toMatch(/git branch/i);
     expect(txt).toMatch(/git merge/i);
   });
 });
 
-describe('.gitignore for ToDo app', () => {
-  it('should mention node_modules and .env', () => {
-    const txt = fs.readFileSync('Docker-Git/solutions/task-10.gitignore', 'utf8');
-    expect(txt).toMatch(/node_modules/);
-    expect(txt).toMatch(/\.env/);
+describe('Task 03: Docker Fundamentals', () => {
+  it('should document the Dockerfile and container run commands', () => {
+    const txt = readSolution('03');
+    expect(txt).toMatch(/FROM node/i);
+    expect(txt).toMatch(/docker (build|run)/i);
   });
-}); 
+});
+
+describe('Task 04: Git Conflicts', () => {
+  it('should document the merge conflict and its resolution', () => {
+    const txt = readSolution('04');
+    expect(txt).toMatch(/git merge/i);
+    expect(txt).toMatch(/conflict/i);
+  });
+});
+
+describe('Task 05: Docker Optimization (Multi-stage builds)', () => {
+  it('should document both Dockerfile versions and .dockerignore', () => {
+    const txt = readSolution('05');
+    expect(txt).toMatch(/multi-stage/i);
+    expect(txt).toMatch(/\.dockerignore/i);
+  });
+});
+
+describe('Task 06: Git Advanced (Rebase)', () => {
+  it('should document the interactive rebase workflow', () => {
+    const txt = readSolution('06');
+    expect(txt).toMatch(/git rebase/i);
+  });
+});
+
+describe('Task 07: Docker Compose', () => {
+  it('should document the multi-service docker-compose setup', () => {
+    const txt = readSolution('07');
+    expect(txt).toMatch(/docker-compose|docker compose/i);
+    expect(txt).toMatch(/postgres/i);
+    expect(txt).toMatch(/pgadmin/i);
+  });
+});
+
+describe('Task 08: Git Workflow with Multiple Remotes', () => {
+  it('should document the remote configuration and safe force-push workflow', () => {
+    const txt = readSolution('08');
+    expect(txt).toMatch(/git remote/i);
+    expect(txt).toMatch(/force-with-lease/i);
+  });
+});
+
+describe('Task 09: Docker Commands', () => {
+  it('should document image commands and evidence of before/after cleanup', () => {
+    const txt = readSolution('09');
+    expect(txt).toMatch(/docker pull/i);
+    expect(txt).toMatch(/docker system df/i);
+    expect(txt).toMatch(/docker system prune/i);
+  });
+});
+
+describe('Task 10: Docker Networks & Volumes', () => {
+  it('should document custom networks and volume persistence', () => {
+    const txt = readSolution('10');
+    expect(txt).toMatch(/docker network/i);
+    expect(txt).toMatch(/volume/i);
+  });
+});

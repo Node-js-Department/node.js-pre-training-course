@@ -1,39 +1,42 @@
-## ✅ **NestJS**
+# NestJS Tasks
+
+> These tasks run inside their own standalone workspace at
+> `solutions/nest/` (with its own `package.json`, `tsconfig.json` and
+> `jest.config.js`), since NestJS needs `@nestjs/*` packages,
+> `reflect-metadata` and decorator compilation that a bare `node` script
+> can't provide. See Task 01's "Project Setup" section for the exact
+> setup commands - you only need to run `npm install` once for all
+> five tasks.
 
 ### 🧪 **General Tasks (Out of ToDo context):**
 
-1. **Task 1: Modular NestJS Setup**
-   Create a `MathModule` and a `LoggerModule`.
-   Inject a `LoggerService` into a controller and a separate service.
-   Emphasize:
+- **[Task 01](./task-01.md)**: Modular NestJS Setup
+- **[Task 02](./task-02.md)**: Dependency Injection Chain
+- **[Task 03](./task-03.md)**: Request Lifecycle Exploration
 
-   - Modularity via `@Module`
-   - Dependency graph via `@Injectable`
-   - Feature encapsulation and reusability
+### 📝 **ToDo-Specific Tasks (NestJS style):**
 
-2. **Task 2: Dependency Injection Chain**
-   Build a chain of services where `AuditService` depends on `UserService`, which depends on `LoggerService`.
-   Focus on constructor-based DI and testing this with mocks.
+- **[Task 04](./task-04.md)**: Setup ToDo CRUD with DTOs
+- **[Task 05](./task-05.md)**: ORM Integration with DTO Mapping
 
-3. **Task 3: Request Lifecycle Exploration**
-   Add a `Guard`, `Pipe`, and `Interceptor` to a route.
-   Log each stage. Show the exact order of execution.
-   Bonus: Block access with a guard under certain conditions.
+## 🎯 What are we planning to learn?
 
----
+- **Modularity**: Structuring an application into feature modules with `@Module`, and controlling what each module exposes via `imports`/`exports`.
+- **Dependency Injection**: How Nest's DI container resolves constructor dependencies, including multi-level chains and swapping providers for mocks in tests.
+- **Request Lifecycle**: The exact order guards, pipes and interceptors run in around a route handler, and how to use each of them for its intended purpose.
+- **Validation with DTOs**: Enforcing input shape and rules with `class-validator` decorators and Nest's `ValidationPipe`.
+- **Persistence Patterns**: The repository pattern and mapping between DB models (entities) and external API shapes (DTOs), independent of which ORM (or none) is behind it.
 
-### ✅ **ToDo-Specific Tasks (NestJS style):**
+## 📚 Resources
 
-4. **Task 4: Setup ToDo CRUD with DTOs**
-   Create a `TodoModule` with `TodoController` and `TodoService`.
-
-   - Use `CreateTodoDto` and `UpdateTodoDto` with `class-validator`
-   - Integrate `ValidationPipe`
-   - Focus on proper route + DTO structure
-
-5. **Task 5: ORM Integration with DTO Mapping**
-   Use TypeORM (or Prisma if preferred) to persist ToDos.
-
-   - Map DTOs to entities (`TodoEntity`)
-   - Use repository pattern
-   - Show how to transform between DB models and external responses
+- [NestJS Official Documentation](https://docs.nestjs.com/)
+- [NestJS - Modules](https://docs.nestjs.com/modules)
+- [NestJS - Providers](https://docs.nestjs.com/providers)
+- [NestJS - Guards](https://docs.nestjs.com/guards)
+- [NestJS - Pipes](https://docs.nestjs.com/pipes)
+- [NestJS - Interceptors](https://docs.nestjs.com/interceptors)
+- [NestJS - Request Lifecycle](https://docs.nestjs.com/faq/request-lifecycle)
+- [NestJS - Testing](https://docs.nestjs.com/fundamentals/testing)
+- [class-validator Documentation](https://github.com/typestack/class-validator)
+- [class-transformer Documentation](https://github.com/typestack/class-transformer)
+- [TypeORM Documentation](https://typeorm.io/)

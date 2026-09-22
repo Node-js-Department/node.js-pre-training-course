@@ -43,7 +43,7 @@ Write a SQL script that creates the following table:
 
 ## Document Your Work
 
-After completing all previous steps, you must document your work in the file `solutions/task-01.sql`:
+After completing all previous steps, you must document your work in the file `solutions/task-01.txt`:
 
 - Write down all terminal commands you used to install the database and any other tools.
 - Include all SQL queries you executed (for creating the database and tables).

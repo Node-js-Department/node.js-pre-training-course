@@ -26,26 +26,48 @@ test('ToDoItem shows title and completed status', () => {
 });
 
 // 3. AddToDo
-test('AddToDo renders with input and add button', () => {
+test('AddToDo adds a new todo when the form is submitted', () => {
   render(<AddToDo />);
-  expect(screen.getByPlaceholderText(/add todo/i)).toBeInTheDocument();
-  expect(screen.getByText(/add/i)).toBeInTheDocument();
+  const input = screen.getByPlaceholderText(/add todo/i);
+  fireEvent.change(input, { target: { value: 'Buy milk' } });
+  fireEvent.click(screen.getByRole('button', { name: /add/i }));
+  expect(screen.getByText('Buy milk')).toBeInTheDocument();
 });
 
 // 4. CompleteToDoList
-test('CompleteToDoList renders with input and add button', () => {
+test('CompleteToDoList marks a todo as completed when its Complete button is clicked', () => {
   render(<CompleteToDoList />);
-  expect(screen.getByPlaceholderText(/add todo/i)).toBeInTheDocument();
-  expect(screen.getByText(/add/i)).toBeInTheDocument();
+  fireEvent.change(screen.getByPlaceholderText(/add todo/i), { target: { value: 'Buy milk' } });
+  fireEvent.click(screen.getByRole('button', { name: /add/i }));
+  expect(screen.getByText('Buy milk')).toBeInTheDocument();
+
+  const beforeClick = document.body.textContent;
+  fireEvent.click(screen.getByRole('button', { name: /complete/i }));
+
+  // The task doesn't mandate a specific completed-state UI, but clicking
+  // Complete must visibly change something -- a click that's a no-op
+  // (the stub's behavior) is a failure regardless of which convention
+  // the rest of the markup ends up using.
+  expect(document.body.textContent).not.toBe(beforeClick);
 });
 
 // 5. FilteredToDoList
-test('FilteredToDoList renders and has filter buttons', () => {
+test('FilteredToDoList filters todos by completion status', () => {
   render(<FilteredToDoList />);
-  expect(screen.getByPlaceholderText(/add todo/i)).toBeInTheDocument();
-  expect(screen.getByText(/all/i)).toBeInTheDocument();
-  expect(screen.getByText(/active/i)).toBeInTheDocument();
-  expect(screen.getByText(/completed/i)).toBeInTheDocument();
+  fireEvent.change(screen.getByPlaceholderText(/add todo/i), { target: { value: 'Buy milk' } });
+  fireEvent.click(screen.getByRole('button', { name: /add/i }));
+  expect(screen.getByText('Buy milk')).toBeInTheDocument();
+
+  // Newly added todos are not completed, so the Completed filter should hide it...
+  fireEvent.click(screen.getByRole('button', { name: /^completed$/i }));
+  expect(screen.queryByText('Buy milk')).not.toBeInTheDocument();
+
+  // ...while Active and All should still show it.
+  fireEvent.click(screen.getByRole('button', { name: /^active$/i }));
+  expect(screen.getByText('Buy milk')).toBeInTheDocument();
+
+  fireEvent.click(screen.getByRole('button', { name: /^all$/i }));
+  expect(screen.getByText('Buy milk')).toBeInTheDocument();
 });
 
 // 6. ActiveCount
@@ -58,10 +80,15 @@ test('ActiveCount shows number of active todos', () => {
 });
 
 // 7. StyledToDoItem
-test('StyledToDoItem renders todo item', () => {
-  render(<StyledToDoItem todo={{ id: 1, title: 'Test', completed: true }} />);
+test('StyledToDoItem applies the CSS Module "completed" class only when completed', () => {
+  const { container, rerender } = render(
+    <StyledToDoItem todo={{ id: 1, title: 'Test', completed: true }} />
+  );
   expect(screen.getByText('Test')).toBeInTheDocument();
-  expect(screen.getByText(/completed/i)).toBeInTheDocument();
+  expect(container.querySelector('.completed')).not.toBeNull();
+
+  rerender(<StyledToDoItem todo={{ id: 1, title: 'Test', completed: false }} />);
+  expect(container.querySelector('.completed')).toBeNull();
 });
 
 // 8. FetchToDos
@@ -71,14 +98,18 @@ test('FetchToDos renders with loading state', () => {
 });
 
 // 9. Card
-test('Card renders children', () => {
-  render(<Card><span>Content</span></Card>);
+test('Card renders children inside a styled wrapper', () => {
+  const { container } = render(<Card><span>Content</span></Card>);
   expect(screen.getByText('Content')).toBeInTheDocument();
+  expect(container.firstElementChild?.className).toMatch(/card/i);
 });
 
 // 10. AddToDoForm
-test('AddToDoForm renders with form elements', () => {
+test('AddToDoForm adds a todo on submit and clears the input', () => {
   render(<AddToDoForm />);
-  expect(screen.getByPlaceholderText(/add todo/i)).toBeInTheDocument();
-  expect(screen.getByText(/submit/i)).toBeInTheDocument();
-}); 
+  const input = screen.getByPlaceholderText(/add todo/i) as HTMLInputElement;
+  fireEvent.change(input, { target: { value: 'Buy milk' } });
+  fireEvent.click(screen.getByRole('button', { name: /submit/i }));
+  expect(screen.getByText('Buy milk')).toBeInTheDocument();
+  expect(input.value).toBe('');
+});

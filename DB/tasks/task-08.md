@@ -28,7 +28,7 @@ In this task, you will use your chosen **ORM** to perform CRUD (Create, Read, Up
 
 ## Document Your Work
 
-After completing all previous steps, document your work in `solutions/task-08.sql`:
+After completing all previous steps, document your work in `solutions/task-08.txt`:
 
 - Provide a link to the pull request where you implemented the solution, or list the relevant commit hashes if a pull request is not available.
 - Briefly describe what you did and any issues you encountered.

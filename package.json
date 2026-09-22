@@ -8,7 +8,6 @@
   },
   "scripts": {
     "test": "jest",
-    "test:all": "jest",
     "test:docker-git": "jest tests/docker-git.test.js",
     "test:js-ts": "jest --testPathPatterns=js-ts-task",
     "test:watch": "jest --watch",

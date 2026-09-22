@@ -523,6 +523,10 @@ class TodoServerTester {
     const passed = this.testResults.filter((r) => r.status === "PASS").length;
     const failed = this.testResults.filter((r) => r.status === "FAIL").length;
 
+    if (failed > 0) {
+      process.exitCode = 1;
+    }
+
     console.log(`✅ Passed: ${passed}`);
     console.log(`❌ Failed: ${failed}`);
     console.log(

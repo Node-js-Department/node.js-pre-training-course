@@ -3,8 +3,6 @@
 ## Running All Tests
 ```bash
 npm test
-# or
-npm run test:all
 ```
 
 ## Running Individual Test Files
@@ -26,6 +24,19 @@ npm run test:docker-git
 npm run test:js-ts
 ```
 
+### Node-Express-Nest Tests
+```bash
+# Node.js and Express.js tasks: each has its own self-running tester (no jest)
+node Node-Express-Nest/v1/solutions/node/task-01-test.js
+node Node-Express-Nest/v1/solutions/express/task-01-test.js
+# ...through task-05 for each
+
+# NestJS tasks: an isolated jest project with its own dependencies
+cd Node-Express-Nest/v1/solutions/nest
+npm install
+npx jest
+```
+
 ## Additional Commands
 
 ### Running Tests in Watch Mode
@@ -40,7 +51,7 @@ npm run test:coverage
 
 ## Command Descriptions
 
-- `npm test` / `npm run test:all` - runs all tests in the `tests/` folder
+- `npm test` - runs all tests in the `tests/` folder
 - React CSS tests - now in separate project at `React-CSS/react-todo-app`
 - `npm run test:docker-git` - runs only Docker Git tests
 - `npm run test:js-ts` - runs only JS TS tests
@@ -56,4 +67,7 @@ Tests are located in the `tests/` folder:
 
 The DB module has no automated tests yet.
 
-React CSS tests are now in the separate project at `React-CSS/react-todo-app/` 
+React CSS tests are now in the separate project at `React-CSS/react-todo-app/`
+
+Node-Express-Nest tests live alongside each task's solution (see above) rather
+than in the root `tests/` folder, and are not part of `npm test`.

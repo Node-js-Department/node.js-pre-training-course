@@ -22,7 +22,7 @@ In this task, you will use **raw SQL** to write queries that aggregate and group
 
 ## Document Your Work
 
-After completing all previous steps, document your work in `solutions/task-04.sql`:
+After completing all previous steps, document your work in `solutions/task-05.txt`:
 
 - Write down all terminal commands you used to interact with the database.
 - Include all SQL queries you executed.
